@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+
+  php-fpm:
+    container_name: ${PROJECT_NAME}-php
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - ./app:/app
+      - "phpsocket:/var/run"
+    environment:
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USERNAME: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_HOST: "${DB_HOST}"
+      MYSQL_PORT: "${DB_PORT}"
+      DEBUG: "true"
+    networks:
+      - default
+
+  nginx:
+    container_name: ${PROJECT_NAME}-nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - "${NGINX_PORT}:80"
+    volumes:
+      - ./app:/app
+      - "phpsocket:/var/run"
+    environment:
+      NGINX_HOST: "${NGINX_HOST}"
+    networks:
+      - default
+
+  mysql:
+    container_name: ${PROJECT_NAME}-mysql
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "${DB_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    networks:
+      - default
+
+volumes:
+  phpsocket:
+
+
+
