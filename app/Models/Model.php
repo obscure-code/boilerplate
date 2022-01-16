@@ -2,13 +2,18 @@
 
 declare(strict_types=1);
 
+namespace App\Models;
+
+use PDO;
+use RuntimeException;
+
 abstract class Model
 {
     protected PDO $db;
 
     public function __construct()
     {
-        if (!getenv('MYSQL_HOSTNAME')) {
+        if (!getenv('MYSQL_HOST')) {
             throw new RuntimeException('Missed MYSQL_HOST');
         }
 
@@ -29,13 +34,17 @@ abstract class Model
         }
 
         $charset = 'utf8';
-        $hostname = getenv('MYSQL_HOSTNAME');
+        $hostname = getenv('MYSQL_HOST');
         $username = getenv('MYSQL_USERNAME');
         $password = getenv('MYSQL_PASSWORD');
         $database = getenv('MYSQL_DATABASE');
         $port = getenv('MYSQL_PORT');
 
 
-        $this->db = new PDO("mysql:host=" . $hostname . ";port=" . $port . ";dbname=" . $database . ";charset=" . $charset, $username, $password);
+        $this->db = new PDO(
+            "mysql:host=" . $hostname . ";port=" . $port . ";dbname=" . $database . ";charset=" . $charset,
+            $username,
+            $password,
+        );
     }
 }
