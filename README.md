@@ -1,7 +1,8 @@
 ## Installation
 
-This is boilerplate for simple applications. It is based on lightweight [**router**](https://github.com/obscure-code/router) and
-and uses docker images (nginx+php+mysql).
+This is boilerplate for simple applications. 
+It is based on lightweight [**router**](https://github.com/obscure-code/router)
+and use docker images (nginx+php+mysql).
 
 ## Quick start
 

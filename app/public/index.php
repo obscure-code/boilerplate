@@ -7,7 +7,7 @@ use ObscureCode\Exceptions\NotFoundException;
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../Router.php';
 
-$route = empty($_GET['route']) ? '' : $_GET['route'];
+//$route = empty($_GET['route']) ? '' : $_GET['route'];
 
 $config = include __DIR__ . '/../config.php';
 
@@ -18,7 +18,7 @@ $router = new Router(
 
 try {
     ob_start();
-    $router->call($route);
+    $router->call($_SERVER['SCRIPT_NAME']);
 } catch (NotFoundException $exception) {
     ob_clean();
 
